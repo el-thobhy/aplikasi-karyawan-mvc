@@ -1,0 +1,61 @@
+﻿@model List<BiodataViewModel>?
+
+@{
+    ViewData["Title"] = "Biodata List";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">@ViewData["Title"]</h3>
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="d-flex justify-content-between">
+
+                    <button id="btn_create" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Create</button>
+
+                    <form id="frmFilter" asp-controller="Biodata" asp-action="Index">
+                        <div class="input-group w-100">
+                            <input type="text" id="txtFilter" name="StringSearch" class="form-control" value="@ViewBag.Filter" />
+
+                            <div class="input-group-prepend">
+                                <button type="submit" class="input-group-text" title="search">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover mb-3">
+            <thead>
+                <tr>
+                    <th class="col-1">Id</th>
+                    <th class="col-2">FirstName</th>
+                    <th class="col-2">LastName</th>
+                    <th class="col-1">Date Of Birth</th>
+                    <th class="col-1">Place Of Birth</th>
+                    <th class="col-3">Address</th>
+                    <th class="col-2">Marital Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model != null)
+                {
+                    @foreach(BiodataViewModel item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Dob</td>
+                            <td>@item.Pob</td>
+                            <td>@item.Address</td>
+                            <td>@item.MaritalStatus</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
