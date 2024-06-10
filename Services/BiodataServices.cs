@@ -28,13 +28,13 @@ namespace aplikasi_karyawan_fe_mvc.Services
             }
         }
 
-        public List<BiodataViewModel>? GetAllFilter(string stringSearch)
+        public ResponseResult? GetAllFilter(string stringSearch, int pageNum, int rows)
         {
             try
             {
-                var apiResponse = httpClient.GetStringAsync($"{apiMaster}/Biodata/Search?pageNum=1&rows=2&search={stringSearch}").Result;
-                var responseResult = JsonConvert.DeserializeObject<ResponseResult>(apiResponse);
-                return JsonConvert.DeserializeObject<List<BiodataViewModel>>(responseResult?.Data.ToString() ?? "");
+                var apiResponse = httpClient.GetStringAsync($"{apiMaster}/Biodata/Search?pageNum={pageNum}&rows={rows}&search={stringSearch}").Result;
+                ResponseResult? responseResult = JsonConvert.DeserializeObject<ResponseResult>(apiResponse);
+                return responseResult;
             }
             catch (Exception e)
             {

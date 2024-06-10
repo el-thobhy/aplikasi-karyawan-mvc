@@ -1,4 +1,5 @@
-﻿using aplikasi_karyawan_fe_mvc.Models;
+﻿using aplikasi_karyawan_fe_mvc.AddOns;
+using aplikasi_karyawan_fe_mvc.Models;
 using aplikasi_karyawan_fe_mvc.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +13,16 @@ namespace aplikasi_karyawan_fe_mvc.Controllers
             _service = new BiodataServices(config["ApiUrl"]);
         }
 
-        public IActionResult Index(string StringSearch)
+        public IActionResult Index(string? StringSearch, string? orderBy, int? pageSize, int? pageNum)
         {
-            List<BiodataViewModel>? data = String.IsNullOrEmpty(StringSearch) ? _service.GetAll() : _service.GetAllFilter(StringSearch);
             ViewBag.Title = "Biodata";
             ViewBag.Filter = StringSearch;
-            return View(data);
+            ViewBag.PageSize = pageSize??2;
+            List<BiodataViewModel> empty = new List<BiodataViewModel>();
+            ResponseResult? data = _service.GetAllFilter(StringSearch??"", pageNum ?? 1, pageSize??2);
+
+            //page
+            return View(Pagination<BiodataViewModel>.Create(data.Data ?? empty, data.Pages, pageNum??1));
         }
     }
 }
